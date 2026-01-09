@@ -1,0 +1,46 @@
+:root{
+  --primary:#2e7d32;
+  --light:#e8f5e9;
+  --muted:#555;
+  --white:#ffffff;
+}
+*{font-family: 'Poppins', sans-serif;}
+.topbar{height:64px}
+.sidebar{width:260px;min-height:calc(100vh - 64px);}
+.sidebar.collapsed{transform:translateX(-260px)}
+.app .main-content{flex:1}
+.page-card{background:var(--white);border-radius:10px}
+.nav-link{color:var(--muted)}
+.nav-link:hover{background:var(--light);border-radius:6px}
+
+/* Form centering inside card */
+.page-card .card-body form{max-width:560px;margin:0 auto}
+.page-card .form-control{border-radius:10px}
+.page-card input, .page-card textarea, .page-card select {
+  width:100%;
+  padding:.6rem .75rem;
+  border:1px solid #dee2e6;
+  border-radius:10px;
+  color:var(--muted);
+  box-sizing:border-box;
+}
+.page-card label{font-weight:600}
+.btn-primary, .btn-success{background:var(--primary);border-color:var(--primary)}
+
+/* Tables */
+.table thead{background:var(--primary);color:#fff}
+.table-hover tbody tr:hover{background:var(--light)}
+
+/* Status badges */
+.badge-pending{background:#ffc107;color:#000}
+.badge-approved{background:#2e7d32;color:#fff}
+
+/* Image preview */
+#imagePreview{max-width:320px;display:block;margin-top:12px;border-radius:8px}
+
+/* Responsive adjustments */
+@media(max-width:991px){
+  .sidebar{position:fixed;z-index:1040;left:0;top:64px;bottom:0;transform:translateX(-260px);transition:transform .2s}
+  .sidebar.collapsed{transform:translateX(0)}
+  .main-content{padding:16px}
+}

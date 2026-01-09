@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Welcome, {{ user.username }}</h2>
+  <p>This is your user dashboard. From here you can upload plant images, view static plant info, and submit consultations.</p>
+  <ul>
+    <li><a href="/plants/">View Plants</a></li>
+    <li><a href="/consultations/upload/">Upload Consultation / Image</a></li>
+  </ul>
+{% endblock %}

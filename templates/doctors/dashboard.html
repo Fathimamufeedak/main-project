@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Doctor Dashboard</h2>
+  {% if doctor %}
+    <p>Status: {% if doctor.is_verified %}Verified{% else %}Pending Approval{% endif %}</p>
+    <p>Qualification: {{ doctor.qualification }}</p>
+  {% else %}
+    <p>No doctor profile found for your account.</p>
+  {% endif %}
+{% endblock %}

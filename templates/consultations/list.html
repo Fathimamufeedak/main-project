@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>My Consultations</h2>
+  <ul>
+  {% for c in consultations %}
+    <li><a href="{% url 'consultation_detail' c.pk %}">#{{ c.id }} - {{ c.status }} - {{ c.created_at }}</a></li>
+  {% empty %}
+    <li>No consultations yet.</li>
+  {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h4 class="mb-0">Upload Consultation</h4>
+    <small class="text-muted">Drag & drop preview (visual only)</small>
+  </div>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Describe your symptoms</label>
+      {{ form.symptoms }}
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Upload image</label>
+      <div class="border rounded p-3" style="background:var(--light);">
+        <div class="d-flex align-items-center gap-3">
+          <i class="bi bi-cloud-upload display-6 text-success"></i>
+          <div>
+            <div class="small text-muted">Drag & drop image here or click to choose</div>
+            {{ form.uploaded_image }}
+          </div>
+        </div>
+        <img id="imagePreview" class="d-none" src="" alt="preview">
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-success" type="submit"><i class="bi bi-send me-1"></i>Submit</button>
+      <button class="btn btn-outline-secondary" type="reset">Clear</button>
+    </div>
+  </form>
+{% endblock %}

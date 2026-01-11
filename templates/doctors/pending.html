@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="alert alert-info shadow-sm">
+        <h4 class="alert-heading">Account Pending Verification</h4>
+        <p>Your account is pending admin verification. Your access to the dashboard is restricted until approval.</p>
+        <hr>
+        <p class="mb-0">If you think this is an error, contact the site administrator.</p>
+      </div>
+      <a href="{% url 'doctor_logout' %}" class="btn btn-outline-secondary">Logout</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

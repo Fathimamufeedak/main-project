@@ -1,5 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-success">Welcome, {{ doctor.user.get_full_name|default:doctor.user.username }}</h2>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Total Consultations</h5>
+          <p class="display-6 text-primary">{{ total }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Pending</h5>
+          <p class="display-6 text-warning">{{ pending }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Completed</h5>
+          <p class="display-6 text-success">{{ completed }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'doctor_consultations' %}" class="btn btn-outline-success me-2">My Consultations</a>
+    <a href="{% url 'doctor_profile' %}" class="btn btn-outline-secondary">Profile</a>
+  </div>
+</div>
+{% endblock %}
+{% extends 'base.html' %}
+{% block content %}
   <h2>Doctor Dashboard</h2>
   {% if doctor %}
     <p>Status: {% if doctor.is_verified %}Verified{% else %}Pending Approval{% endif %}</p>

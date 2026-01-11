@@ -1,9 +1,65 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Welcome, {{ user.username }}</h2>
-  <p>This is your user dashboard. From here you can upload plant images, view static plant info, and submit consultations.</p>
-  <ul>
-    <li><a href="/plants/">View Plants</a></li>
-    <li><a href="/consultations/upload/">Upload Consultation / Image</a></li>
-  </ul>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="m-0 text-success">Welcome, {{ user.get_full_name|default:user.username }}</h4>
+    <small class="text-muted">Overview of your activity</small>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-3">
+      <div class="card p-3 shadow-sm">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-journal-text fs-1 text-success me-3"></i>
+          <div>
+            <div class="text-muted">Total Queries</div>
+            <div class="h4">{{ total_queries }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card p-3 shadow-sm">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-hourglass-split fs-1 text-warning me-3"></i>
+          <div>
+            <div class="text-muted">Pending</div>
+            <div class="h5 text-warning">{{ pending }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card p-3 shadow-sm">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-gear-wide-connected fs-1 text-success me-3"></i>
+          <div>
+            <div class="text-muted">In Progress</div>
+            <div class="h5">{{ in_progress }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card p-3 shadow-sm">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-check2-circle fs-1 text-success me-3"></i>
+          <div>
+            <div class="text-muted">Completed</div>
+            <div class="h5">{{ completed }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-4 p-3 shadow-sm">
+    <h5 class="text-success">Quick Actions</h5>
+    <div class="d-flex gap-2 flex-wrap mt-2">
+      <a class="btn btn-outline-success" href="{% url 'upload_consultation' %}"><i class="bi bi-cloud-upload me-1"></i>Upload Image / Query</a>
+      <a class="btn btn-outline-success" href="{% url 'plant_list' %}"><i class="bi bi-flower1 me-1"></i>View Plants</a>
+      <a class="btn btn-outline-success" href="{% url 'user_consultations' %}"><i class="bi bi-chat-left-text me-1"></i>My Queries</a>
+      <a class="btn btn-outline-success" href="{% url 'profile' %}"><i class="bi bi-person me-1"></i>Profile</a>
+    </div>
+  </div>
+
 {% endblock %}

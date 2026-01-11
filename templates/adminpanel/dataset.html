@@ -1,5 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Dataset Placeholder</h2>
-  <p>This page is a placeholder for future ML dataset management. No ML is implemented in Phase-1.</p>
+  <h4 class="text-success">Dataset Management (Future ML Integration)</h4>
+  <p class="text-muted">This dataset will be used for CNN model training in Phase-2.</p>
+
+  <form method="post" enctype="multipart/form-data" class="mt-3">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Upload images</label>
+      <input type="file" name="images" multiple class="form-control">
+    </div>
+    <div class="d-grid">
+      <button class="btn btn-success">Upload</button>
+    </div>
+  </form>
+
+  <h5 class="mt-4">Uploaded Files</h5>
+  <ul>
+    {% for f in files %}
+      <li>{{ f }}</li>
+    {% empty %}
+      <li>No dataset images uploaded yet.</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="m-0 text-success">Admin Dashboard</h4>
+  <small class="text-muted">Overview & management</small>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-3">
+    <div class="card p-3 shadow-sm">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-people fs-1 text-success me-3"></i>
+        <div>
+          <div class="text-muted">Total Users</div>
+          <div class="h4">{{ total_users }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-3 shadow-sm">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-person-badge fs-1 text-success me-3"></i>
+        <div>
+          <div class="text-muted">Total Doctors</div>
+          <div class="h4">{{ total_doctors }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-3 shadow-sm">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-hourglass-split fs-1 text-warning me-3"></i>
+        <div>
+          <div class="text-muted">Pending Approvals</div>
+          <div class="h4 text-warning">{{ pending_doctors }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-3 shadow-sm">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-flower1 fs-1 text-success me-3"></i>
+        <div>
+          <div class="text-muted">Total Plants</div>
+          <div class="h4">{{ total_plants }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 mt-3">
+    <div class="card p-3 shadow-sm">
+      <h5 class="text-success">Quick Links</h5>
+      <div class="d-flex gap-2 flex-wrap">
+        <a href="{% url 'doctor_requests' %}" class="btn btn-outline-success btn-sm">Approve Doctors</a>
+        <a href="{% url 'manage_users' %}" class="btn btn-outline-success btn-sm">Manage Users</a>
+        <a href="{% url 'manage_doctors' %}" class="btn btn-outline-success btn-sm">Manage Doctors</a>
+        <a href="{% url 'manage_plants' %}" class="btn btn-outline-success btn-sm">Manage Plants</a>
+        <a href="{% url 'manage_remedies' %}" class="btn btn-outline-success btn-sm">Manage Remedies</a>
+        <a href="{% url 'consultations_list' %}" class="btn btn-outline-success btn-sm">Consultations</a>
+        <a href="{% url 'dataset_management' %}" class="btn btn-outline-success btn-sm">Dataset</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -44,3 +44,19 @@
   .sidebar.collapsed{transform:translateX(0)}
   .main-content{padding:16px}
 }
+
+/* Admin panel polish */
+.sidebar .nav-link.active{background:linear-gradient(90deg,var(--light),#f1fff1);border-radius:8px;color:var(--primary)}
+.card .h4{font-weight:700}
+.page-card .card-body h4{color:var(--primary)}
+.badge-pending{background:#ffc107;color:#000;border-radius:6px;padding:.35rem .5rem}
+.badge-approved{background:var(--primary);color:#fff;border-radius:6px;padding:.35rem .5rem}
+.badge-rejected{background:#dc3545;color:#fff;border-radius:6px;padding:.35rem .5rem}
+.table thead{background:linear-gradient(90deg,var(--primary),#1b5e20);color:#fff}
+.form-select, .form-control, .btn{border-radius:8px}
+.topbar .navbar-brand{font-size:1.05rem}
+.page-card{padding:1rem}
+
+/* Small utility tweaks */
+.text-success{color:var(--primary) !important}
+

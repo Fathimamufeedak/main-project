@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h4 class="text-success">Remedies by {{ doc.user.get_full_name|default:doc.user.username }}</h4>
+  <table class="table table-hover mt-3">
+    <thead>
+      <tr>
+        <th>Plant</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in remedies %}
+        <tr>
+          <td>{{ r.plant.plant_name }}</td>
+          <td>{{ r.remedy_description|truncatechars:140 }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="2">No remedies found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -14,7 +14,7 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Account created. You can now log in.')
+            messages.success(request, 'Account created. You can now log in using your email.')
             return redirect('login')
     else:
         form = UserRegisterForm()
@@ -23,9 +23,18 @@ def register(request):
 
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('email') or request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        # allow login by email: find username for given email
+        from django.contrib.auth.models import User
+        user = None
+        try:
+            user_obj = User.objects.get(email__iexact=email)
+            user = authenticate(request, username=user_obj.username, password=password)
+        except User.DoesNotExist:
+            # fallback: try authenticate with provided value as username
+            user = authenticate(request, username=email, password=password)
+
         if user:
             login(request, user)
             return redirect('dashboard')
@@ -41,7 +50,18 @@ def user_logout(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'users/dashboard.html')
+    from consultations.models import Consultation
+    total_queries = Consultation.objects.filter(user=request.user).count()
+    pending = Consultation.objects.filter(user=request.user, status='pending').count()
+    in_progress = Consultation.objects.filter(user=request.user, status='in_progress').count()
+    completed = Consultation.objects.filter(user=request.user, status='completed').count()
+    context = {
+        'total_queries': total_queries,
+        'pending': pending,
+        'in_progress': in_progress,
+        'completed': completed,
+    }
+    return render(request, 'users/dashboard.html', context)
 
 
 @login_required

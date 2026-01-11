@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h4 class="text-success">Edit Doctor</h4>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Qualification</label>
+      <input name="qualification" class="form-control" value="{{ doc.qualification }}">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Experience (years)</label>
+      <input name="experience" class="form-control" value="{{ doc.experience }}">
+    </div>
+    <div class="d-grid">
+      <button class="btn btn-success">Save</button>
+    </div>
+  </form>
+{% endblock %}

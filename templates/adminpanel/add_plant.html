@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h4 class="text-success">Add Plant</h4>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Plant Name</label>
+      <input name="plant_name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea name="description" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Medicinal Uses</label>
+      <textarea name="medicinal_uses" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Safety Guidelines</label>
+      <textarea name="safety_guidelines" class="form-control"></textarea>
+    </div>
+    <div class="d-grid">
+      <button class="btn btn-success">Add Plant</button>
+    </div>
+  </form>
+{% endblock %}

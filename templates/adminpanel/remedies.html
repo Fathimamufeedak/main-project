@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h4 class="text-success">Manage Remedies</h4>
+  <form method="post" class="mb-3">
+    {% csrf_token %}
+    <div class="row g-2">
+      <div class="col-md-4">
+        <select name="plant" class="form-select">
+          <option value="">Select plant</option>
+          {% for p in plants %}
+            <option value="{{ p.pk }}">{{ p.plant_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <select name="doctor" class="form-select">
+          <option value="">Select doctor (optional)</option>
+          {% for d in doctors %}
+            <option value="{{ d.pk }}">{{ d.user.get_full_name|default:d.user.username }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-success">Add Remedy</button>
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Plant</th>
+        <th>Doctor</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in remedies %}
+        <tr>
+          <td>{{ r.plant.plant_name }}</td>
+          <td>{% if r.doctor %}{{ r.doctor.user.get_full_name|default:r.doctor.user.username }}{% else %}-{% endif %}</td>
+          <td>{{ r.remedy_description|truncatechars:100 }}</td>
+          <td>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'edit_remedy' r.pk %}">Edit</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'delete_remedy' r.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">No remedies found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

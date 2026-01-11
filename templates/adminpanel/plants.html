@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="text-success">Manage Plants</h4>
+    <a class="btn btn-success btn-sm" href="{% url 'add_plant' %}">Add Plant</a>
+  </div>
+  <table class="table table-hover mt-3">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Uses</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in plants %}
+        <tr>
+          <td>{{ p.plant_name }}</td>
+          <td>{{ p.description|truncatechars:80 }}</td>
+          <td>{{ p.medicinal_uses|truncatechars:80 }}</td>
+          <td>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'edit_plant' p.pk %}">Edit</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'delete_plant' p.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">No plants added yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

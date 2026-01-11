@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h4 class="text-success">Edit Remedy</h4>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea name="remedy_description" class="form-control">{{ remedy.remedy_description }}</textarea>
+    </div>
+    <div class="d-grid">
+      <button class="btn btn-success">Save</button>
+    </div>
+  </form>
+{% endblock %}

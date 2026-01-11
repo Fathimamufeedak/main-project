@@ -1,11 +1,41 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Doctor Requests (Pending)</h2>
-  <ul>
-    {% for d in doctors %}
-      <li>{{ d.user.username }} - {{ d.qualification }} - <a href="{% url 'approve_doctor' d.pk %}">Approve</a></li>
-    {% empty %}
-      <li>No pending doctor requests.</li>
-    {% endfor %}
-  </ul>
+  <h4 class="text-success">Doctor Requests</h4>
+  <table class="table table-hover mt-3">
+    <thead>
+      <tr>
+        <th>Doctor</th>
+        <th>Qualification</th>
+        <th>Experience</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in doctors %}
+        <tr>
+          <td>{{ d.user.get_full_name|default:d.user.username }}<br/><small class="text-muted">{{ d.user.email }}</small></td>
+          <td>{{ d.qualification }}</td>
+          <td>{{ d.experience }} yrs</td>
+          <td>
+            {% if d.is_verified %}
+              <span class="badge badge-approved">Approved</span>
+            {% else %}
+              <span class="badge badge-pending">Pending</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if not d.is_verified %}
+              <a class="btn btn-sm btn-success" href="{% url 'approve_doctor' d.pk %}">Approve</a>
+              <a class="btn btn-sm btn-outline-secondary" href="{% url 'reject_doctor' d.pk %}">Reject</a>
+            {% else %}
+              <a class="btn btn-sm btn-primary" href="{% url 'doctor_remedies' d.pk %}">View Remedies</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5">No doctors found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

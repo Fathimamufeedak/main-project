@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h4 class="text-danger">Confirm Deletion</h4>
+  <p>Are you sure you want to delete consultation #{{ cons.id }}?</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="d-flex gap-2">
+      <button class="btn btn-danger" type="submit">Delete</button>
+      <a class="btn btn-outline-secondary" href="{% url 'consultation_detail' cons.pk %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

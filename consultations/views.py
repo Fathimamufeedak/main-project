@@ -31,3 +31,33 @@ def consultation_detail(request, pk):
     if cons.user != request.user and not request.user.is_staff:
         return redirect('user_consultations')
     return render(request, 'consultations/detail.html', {'cons': cons})
+
+
+@login_required
+def edit_consultation(request, pk):
+    cons = get_object_or_404(Consultation, pk=pk)
+    if cons.user != request.user:
+        return redirect('user_consultations')
+    if cons.status != 'pending':
+        # only pending consultations can be edited by user
+        return redirect('consultation_detail', pk=cons.pk)
+
+    if request.method == 'POST':
+        form = ConsultationForm(request.POST, request.FILES, instance=cons)
+        if form.is_valid():
+            form.save()
+            return redirect('consultation_detail', pk=cons.pk)
+    else:
+        form = ConsultationForm(instance=cons)
+    return render(request, 'consultations/upload.html', {'form': form, 'editing': True})
+
+
+@login_required
+def delete_consultation(request, pk):
+    cons = get_object_or_404(Consultation, pk=pk)
+    if cons.user != request.user and not request.user.is_staff:
+        return redirect('user_consultations')
+    if request.method == 'POST':
+        cons.delete()
+        return redirect('user_consultations')
+    return render(request, 'consultations/confirm_delete.html', {'cons': cons})

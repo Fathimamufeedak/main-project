@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  /* Hide sidebar for landing page and make content full width */
+  #sidebar{display:none !important}
+  .main-content{padding:0}
+  .landing-hero{background: linear-gradient(135deg, rgba(46,125,50,0.06), rgba(232,245,233,0.6)); padding:6rem 0}
+  .hero-badge{display:inline-block; background:#e8f5e9; color:var(--primary); padding:.35rem .75rem; border-radius:999px; font-weight:600}
+  .hero-title{font-family:'Poppins', sans-serif; font-size:2.6rem; font-weight:700; color:#1f2937}
+  .hero-title .highlight{color:var(--primary)}
+  .hero-sub{color:#4b5563; max-width:720px}
+  .cta-group .btn{border-radius:12px}
+  .plants-grid .card{border-radius:12px; transition:transform .25s ease, box-shadow .25s ease}
+  .plants-grid .card:hover{transform:translateY(-6px); box-shadow:0 10px 30px rgba(18,52,30,0.06)}
+</style>
+
+<section class="landing-hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <span class="hero-badge">🌿 AI-Powered Plant Identification</span>
+        <h1 class="hero-title mt-3">Discover the Healing Power of <span class="highlight">Medicinal Plants</span></h1>
+        <p class="hero-sub mt-3">Upload any plant image and instantly identify its species. Get detailed information about medicinal uses, traditional remedies, and expert consultations.</p>
+        <div class="mt-4 cta-group">
+          <a href="{% url 'upload_consultation' %}" class="btn btn-primary btn-lg me-2">Get Started</a>
+          <a href="#featured" class="btn btn-outline-secondary btn-lg">Learn More</a>
+        </div>
+      </div>
+      <div class="col-lg-5 text-center d-none d-lg-block">
+        <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=example" class="img-fluid rounded" alt="herbal" style="box-shadow:0 8px 30px rgba(0,0,0,0.06)">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="featured" class="py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h3 class="fw-bold">Featured Medicinal Plants</h3>
+      <p class="text-muted">Explore our comprehensive database of traditional healing plants used in Ayurvedic medicine.</p>
+    </div>
+
+    <div class="row plants-grid">
+      {% comment %} Example cards - replace with real plant queryset if desired {% endcomment %}
+      <div class="col-md-3 mb-3">
+        <div class="card p-3 h-100">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=example" class="card-img-top rounded mb-3" alt="Aloe Vera">
+          <h5 class="card-title">Aloe Vera</h5>
+          <p class="text-muted small">Aloe vera is used for skin healing, burns and digestive soothing.</p>
+          <a href="{% url 'plant_detail' 1 %}" class="btn btn-outline-success btn-sm">View Details</a>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <div class="card p-3 h-100">
+          <img src="https://images.unsplash.com/photo-1582540021106-3f9e7b3e5f5d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=example" class="card-img-top rounded mb-3" alt="Tulsi">
+          <h5 class="card-title">Tulsi (Holy Basil)</h5>
+          <p class="text-muted small">Tulsi is an adaptogen used to support immunity and respiratory health.</p>
+          <a href="{% url 'plant_detail' 2 %}" class="btn btn-outline-success btn-sm">View Details</a>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <div class="card p-3 h-100">
+          <img src="https://images.unsplash.com/photo-1598136497683-e9a9c9a6b4a9?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=example" class="card-img-top rounded mb-3" alt="Neem">
+          <h5 class="card-title">Neem</h5>
+          <p class="text-muted small">Neem has antiseptic properties and is widely used in skincare and traditional remedies.</p>
+          <a href="{% url 'plant_detail' 3 %}" class="btn btn-outline-success btn-sm">View Details</a>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <div class="card p-3 h-100">
+          <img src="https://images.unsplash.com/photo-1518977956815-0e9b2d2d4a9c?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=example" class="card-img-top rounded mb-3" alt="Ashwagandha">
+          <h5 class="card-title">Ashwagandha</h5>
+          <p class="text-muted small">Ashwagandha is used as a tonic to reduce stress and support vitality.</p>
+          <a href="{% url 'plant_detail' 4 %}" class="btn btn-outline-success btn-sm">View Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

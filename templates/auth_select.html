@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-center my-5">
+  <div class="card p-4" style="max-width:760px; width:100%; border-radius:12px;">
+    <div class="card-body text-center">
+      <h3 class="mb-3">Choose Your Role</h3>
+      <p class="text-muted">Select the appropriate authentication flow for your account.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-2 mt-4">
+        <a href="/user/login/" class="btn btn-outline-success">Login as User</a>
+        <a href="/doctor/login/" class="btn btn-outline-success">Login as Doctor</a>
+        <a href="/admin/login/" class="btn btn-outline-secondary">Login as Admin</a>
+      </div>
+      <hr class="my-4">
+      <div class="d-flex flex-wrap justify-content-center gap-2">
+        <a href="/user/register/" class="btn btn-primary">Register as User</a>
+        <a href="/doctor/register/" class="btn btn-secondary">Register as Doctor</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

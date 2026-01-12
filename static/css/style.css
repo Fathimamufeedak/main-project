@@ -60,3 +60,13 @@
 /* Small utility tweaks */
 .text-success{color:var(--primary) !important}
 
+/* Landing page specific (kept minimal) */
+.landing-hero{background: linear-gradient(135deg, rgba(46,125,50,0.06), rgba(232,245,233,0.6));}
+.hero-badge{display:inline-block; background:#e8f5e9; color:var(--primary); padding:.35rem .75rem; border-radius:999px; font-weight:600}
+.hero-title{font-family:'Poppins', sans-serif; font-size:2.2rem; font-weight:700; color:#1f2937}
+.hero-title .highlight{color:var(--primary)}
+.hero-sub{color:#4b5563}
+.plants-grid .card{border-radius:12px}
+.btn-outline-success{border-color:var(--primary); color:var(--primary)}
+.btn-outline-success:hover{background:var(--primary); color:#fff}
+

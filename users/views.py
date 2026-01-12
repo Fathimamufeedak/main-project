@@ -6,7 +6,12 @@ from .forms import UserRegisterForm, UserUpdateForm
 
 
 def index(request):
-    return render(request, 'base.html')
+    return render(request, 'home.html')
+
+
+def auth_select(request):
+    """Render authentication role selection page."""
+    return render(request, 'auth_select.html')
 
 
 def register(request):

@@ -1,9 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Doctor
-from doctors.models import Remedy
 from consultations.models import Consultation
-from plants.models import Plant
+from plants.models import Plant, Remedy
 
 
 class DoctorLoginForm(forms.Form):
@@ -20,7 +19,13 @@ class DoctorProfileForm(forms.ModelForm):
 class RemedyForm(forms.ModelForm):
     class Meta:
         model = Remedy
-        fields = ['plant', 'description', 'usage']
+        fields = ['symptom', 'remedy_description', 'usage', 'plant']
+        widgets = {
+            'symptom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. cough'}),
+            'remedy_description': forms.Textarea(attrs={'class': 'form-control', 'rows':4}),
+            'usage': forms.Textarea(attrs={'class': 'form-control', 'rows':3}),
+            'plant': forms.Select(attrs={'class': 'form-select'}),
+        }
 
 
 class ResponseForm(forms.Form):

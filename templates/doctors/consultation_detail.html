@@ -54,8 +54,11 @@
     <div class="card-body">
       <h5>Ayurvedic Remedy</h5>
       {% if remedy %}
-        <p><strong>Plant:</strong> {{ remedy.plant }}</p>
-        <p><strong>Description:</strong> {{ remedy.description }}</p>
+        {% if remedy.plant %}
+          <p><strong>Plant:</strong> {{ remedy.plant }}</p>
+        {% endif %}
+        <p><strong>Symptom:</strong> {{ remedy.symptom }}</p>
+        <p><strong>Remedy:</strong> {{ remedy.remedy_description }}</p>
         <p><strong>Usage:</strong> {{ remedy.usage }}</p>
         <a href="{% url 'doctor_remedy_form' consult.id %}" class="btn btn-outline-secondary btn-sm">Edit Remedy</a>
       {% else %}

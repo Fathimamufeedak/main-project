@@ -12,9 +12,9 @@ from .forms import (
     ResponseForm,
     StatusForm,
 )
-from .models import Doctor, Remedy
+from .models import Doctor
 from consultations.models import Consultation
-from plants.models import Plant
+from plants.models import Plant, Remedy as PlantRemedy
 
 
 def _get_doctor_or_none(user):
@@ -112,10 +112,8 @@ def consultation_detail(request, pk):
 
     response_form = ResponseForm()
     status_form = StatusForm(initial={'status': consult.status})
-    try:
-        remedy = consult.remedy
-    except Remedy.DoesNotExist:
-        remedy = None
+    # try to find a symptom-based remedy created by this doctor for this consultation symptom
+    remedy = PlantRemedy.objects.filter(doctor=doc, symptom__iexact=consult.symptoms).first()
 
     if request.method == 'POST':
         if 'response_submit' in request.POST:
@@ -149,23 +147,46 @@ def remedy_form(request, pk):
         return render(request, 'doctors/pending.html', {'doctor': doc})
 
     consult = get_object_or_404(Consultation, pk=pk, doctor=doc)
-    try:
-        remedy = consult.remedy
-    except Remedy.DoesNotExist:
-        remedy = None
+    # find existing symptom-remedy by this doctor for this consultation symptom
+    remedy = PlantRemedy.objects.filter(doctor=doc, symptom__iexact=consult.symptoms).first()
 
     if request.method == 'POST':
         form = RemedyForm(request.POST, instance=remedy)
         if form.is_valid():
             rem = form.save(commit=False)
-            rem.consultation = consult
+            rem.doctor = doc
+            # default the symptom to the consultation symptoms if not provided
+            rem.symptom = form.cleaned_data.get('symptom') or consult.symptoms
             rem.save()
             messages.success(request, 'Remedy saved')
             return redirect('doctor_consultation_detail', pk=pk)
     else:
-        form = RemedyForm(instance=remedy)
+        if remedy:
+            form = RemedyForm(instance=remedy)
+        else:
+            form = RemedyForm(initial={'symptom': consult.symptoms})
 
     return render(request, 'doctors/remedy_form.html', {'form': form, 'consult': consult})
+
+
+@login_required
+def doctor_add_remedy(request):
+    doc = _get_doctor_or_none(request.user)
+    if not doc or not doc.is_verified:
+        return render(request, 'doctors/pending.html', {'doctor': doc})
+
+    if request.method == 'POST':
+        form = RemedyForm(request.POST)
+        if form.is_valid():
+            rem = form.save(commit=False)
+            rem.doctor = doc
+            rem.save()
+            messages.success(request, 'Remedy added')
+            return redirect('doctor_dashboard')
+    else:
+        form = RemedyForm()
+
+    return render(request, 'doctors/remedy_form.html', {'form': form, 'consult': None})
 
 
 @login_required

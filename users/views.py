@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm
+from plants.models import Remedy as PlantRemedy
 
 
 def index(request):
@@ -80,3 +81,11 @@ def profile(request):
     else:
         form = UserUpdateForm(instance=request.user)
     return render(request, 'users/profile.html', {'form': form})
+
+
+def search_remedies(request):
+    query = request.GET.get('q') or request.POST.get('q')
+    results = []
+    if query:
+        results = PlantRemedy.objects.filter(symptom__icontains=query).select_related('doctor').order_by('-created_at')
+    return render(request, 'users/search_remedies.html', {'results': results, 'query': query})

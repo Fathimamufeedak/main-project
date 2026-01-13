@@ -1,14 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-4">
-  <h4 class="text-success">Add / Update Remedy for Consultation #{{ consult.id }}</h4>
+  {% if consult %}
+    <h4 class="text-success">Add / Update Remedy for Consultation #{{ consult.id }}</h4>
+  {% else %}
+    <h4 class="text-success">Add Remedy</h4>
+  {% endif %}
   <div class="card mt-3 shadow-sm">
     <div class="card-body">
       <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="mb-3">
+          {{ form.symptom.label_tag }}
+          {{ form.symptom }}
+        </div>
+        <div class="mb-3">
+          {{ form.remedy_description.label_tag }}
+          {{ form.remedy_description }}
+        </div>
+        <div class="mb-3">
+          {{ form.usage.label_tag }}
+          {{ form.usage }}
+        </div>
+        <div class="mb-3">
+          {{ form.plant.label_tag }}
+          {{ form.plant }}
+        </div>
         <button class="btn btn-success">Save Remedy</button>
-        <a href="{% url 'doctor_consultation_detail' consult.id %}" class="btn btn-outline-secondary">Cancel</a>
+        {% if consult %}
+          <a href="{% url 'doctor_consultation_detail' consult.id %}" class="btn btn-outline-secondary">Cancel</a>
+        {% else %}
+          <a href="{% url 'doctor_dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+        {% endif %}
       </form>
     </div>
   </div>

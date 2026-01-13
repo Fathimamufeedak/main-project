@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h4 class="text-success">Search Remedies</h4>
+  <form method="get" class="row g-2 mt-2">
+    <div class="col-md-8">
+      <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Enter symptom (e.g. cough, fever)" class="form-control rounded" />
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-success w-100">Search Remedies</button>
+    </div>
+  </form>
+
+  <div class="mt-4 row g-3">
+    {% for r in results %}
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title text-success">{{ r.symptom|default:'General' }}</h5>
+            {% if r.plant %}
+              <p class="mb-1"><strong>Plant:</strong> {{ r.plant.plant_name }}</p>
+            {% endif %}
+            <p class="mb-1"><strong>Remedy:</strong> {{ r.remedy_description }}</p>
+            <p class="mb-1"><strong>Usage:</strong> {{ r.usage }}</p>
+            <p class="text-muted small">Added by: {{ r.doctor.user.get_full_name|default:r.doctor.user.username|default:'Verified Doctor' }}</p>
+            <p class="text-muted small">Added: {{ r.created_at|date:'M d, Y' }}</p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <p class="text-muted">No remedies found. Try different symptom keywords.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

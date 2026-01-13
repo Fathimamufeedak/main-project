@@ -16,12 +16,14 @@ Workflow
    - After successful login, if `is_verified=False`, the doctor sees a "pending verification" page and cannot access the dashboard or consultation features.
 
 3. Dashboard and Consultations
-   - Once verified, the doctor can view the dashboard showing total, pending and completed consultations.
-   - The doctor can open assigned consultations, view user symptoms and uploaded image, submit a textual response, update consultation status and add/update an Ayurvedic remedy.
+  - Once verified, the doctor can view the dashboard showing total, pending and completed consultations.
+  - The doctor can open assigned consultations, view user symptoms and uploaded image, submit a textual response, update consultation status and add/update an Ayurvedic remedy linked to the reported symptom.
 
-4. Remedy Management
-   - Remedies are stored in the `doctors.Remedy` model and linked one-to-one with a consultation.
-   - Remedy fields: Plant (optional link to `plants.Plant`), description, and usage instructions.
+4. Remedy Management (Updated - Symptom-based)
+  - Remedies are now stored in `plants.Remedy` as symptom-based remedies contributed by verified doctors.
+  - Each remedy contains: doctor (FK), symptom (text), remedy_description, usage instructions, optional `plant` link, and `created_at` timestamp.
+  - Doctors may add a remedy directly from a consultation (the consultation's symptom is pre-filled) or add a general remedy via the "Add Remedies" page.
+  - Remedies added by doctors become searchable by users via symptom keywords.
 
 Admin approval explanation
 
@@ -59,9 +61,9 @@ Page-wise UI explanation (for viva)
   - Status form to update (Pending / In Progress / Completed).
   - Remedy section shows existing remedy or link to add one.
 
-- Remedy Form (`templates/doctors/remedy_form.html`)
-  - Form to add or edit remedy linked to a consultation.
-  - Fields: associated plant (optional), description, usage instructions.
+-- Remedy Form (`templates/doctors/remedy_form.html`)
+  - Form to add or edit a symptom-based remedy. When opened from a consultation the `symptom` field is pre-filled with the user's reported symptoms.
+  - Fields: `symptom` (text), `remedy_description` (textarea), `usage` (textarea), optional `plant` (select).
 
 - Profile (`templates/doctors/profile.html`)
   - Edit doctor fields (qualification, experience) and basic user fields (first name, last name, email).

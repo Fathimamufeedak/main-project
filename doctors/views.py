@@ -25,23 +25,11 @@ def _get_doctor_or_none(user):
 
 
 def doctor_login(request):
-    if request.method == 'POST':
-        form = DoctorLoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                doc = _get_doctor_or_none(user)
-                if doc and not doc.is_verified:
-                    messages.info(request, 'Your account is pending admin verification.')
-                return redirect('doctor_dashboard')
-            else:
-                messages.error(request, 'Invalid credentials')
-    else:
-        form = DoctorLoginForm()
-    return render(request, 'doctors/login.html', {'form': form})
+    """
+    Doctor login - redirects to unified login page.
+    This maintains backwards compatibility for /doctors/login/ URLs.
+    """
+    return redirect('login')
 
 
 def doctor_logout(request):

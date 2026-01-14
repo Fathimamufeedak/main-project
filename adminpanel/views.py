@@ -25,23 +25,11 @@ def admin_required(view_func):
 
 
 def admin_login(request):
-    """Admin login using email + password. Only users with is_staff=True can login here."""
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            user = None
-
-        if user:
-            user = authenticate(request, username=user.username, password=password)
-            if user and user.is_staff:
-                login(request, user)
-                return redirect('admin_dashboard')
-        messages.error(request, 'Invalid admin credentials')
-
-    return render(request, 'adminpanel/login.html')
+    """
+    Admin login - redirects to unified login page.
+    This maintains backwards compatibility for /admin-panel/login/ URLs.
+    """
+    return redirect('login')
 
 
 def admin_logout(request):
@@ -51,19 +39,17 @@ def admin_logout(request):
 
 @admin_required
 def dashboard(request):
-    """Admin dashboard with summary cards."""
+    """Admin dashboard with summary cards showing: Total Users, Total Doctors, Total Consultations, Total Plants."""
     total_users = User.objects.count()
     total_doctors = Doctor.objects.count()
-    pending_doctors = Doctor.objects.filter(is_verified=False).count()
-    total_plants = Plant.objects.count()
     total_consultations = Consultation.objects.count()
+    total_plants = Plant.objects.count()
 
     context = {
         'total_users': total_users,
         'total_doctors': total_doctors,
-        'pending_doctors': pending_doctors,
-        'total_plants': total_plants,
         'total_consultations': total_consultations,
+        'total_plants': total_plants,
     }
     return render(request, 'adminpanel/dashboard.html', context)
 
@@ -114,6 +100,23 @@ def deactivate_user(request, pk):
     user.is_active = False
     user.save()
     messages.success(request, 'User deactivated')
+    return redirect('manage_users')
+
+
+@admin_required
+def delete_user(request, pk):
+    """
+    Permanently delete a user account from the custom admin panel.
+    We prevent an admin from deleting their own logged-in account for safety.
+    """
+    user = get_object_or_404(User, pk=pk)
+    if request.user == user:
+        messages.error(request, 'You cannot delete your own admin account.')
+        return redirect('manage_users')
+
+    username = user.username
+    user.delete()
+    messages.success(request, f'User "{username}" deleted successfully.')
     return redirect('manage_users')
 
 
@@ -204,48 +207,49 @@ def delete_plant(request, pk):
     return redirect('manage_plants')
 
 
-@admin_required
-def manage_remedies(request):
-    remedies = Remedy.objects.select_related('plant', 'doctor')
-    plants = Plant.objects.all()
-    doctors = Doctor.objects.select_related('user')
-    return render(request, 'adminpanel/remedies.html', {'remedies': remedies, 'plants': plants, 'doctors': doctors})
-
-
-@admin_required
-def add_remedy(request):
-    if request.method == 'POST':
-        plant_id = request.POST.get('plant')
-        doctor_id = request.POST.get('doctor')
-        desc = request.POST.get('remedy_description', '')
-        plant = get_object_or_404(Plant, pk=plant_id)
-        doctor = None
-        if doctor_id:
-            doctor = get_object_or_404(Doctor, pk=doctor_id)
-        Remedy.objects.create(plant=plant, doctor=doctor, remedy_description=desc)
-        messages.success(request, 'Remedy added')
-        return redirect('manage_remedies')
-
-    return redirect('manage_remedies')
-
-
-@admin_required
-def edit_remedy(request, pk):
-    rem = get_object_or_404(Remedy, pk=pk)
-    if request.method == 'POST':
-        rem.remedy_description = request.POST.get('remedy_description', '')
-        rem.save()
-        messages.success(request, 'Remedy updated')
-        return redirect('manage_remedies')
-    return render(request, 'adminpanel/edit_remedy.html', {'remedy': rem})
-
-
-@admin_required
-def delete_remedy(request, pk):
-    rem = get_object_or_404(Remedy, pk=pk)
-    rem.delete()
-    messages.success(request, 'Remedy deleted')
-    return redirect('manage_remedies')
+# Remedy management views are disabled/hidden - feature removed from admin panel
+# @admin_required
+# def manage_remedies(request):
+#     remedies = Remedy.objects.select_related('plant', 'doctor')
+#     plants = Plant.objects.all()
+#     doctors = Doctor.objects.select_related('user')
+#     return render(request, 'adminpanel/remedies.html', {'remedies': remedies, 'plants': plants, 'doctors': doctors})
+#
+#
+# @admin_required
+# def add_remedy(request):
+#     if request.method == 'POST':
+#         plant_id = request.POST.get('plant')
+#         doctor_id = request.POST.get('doctor')
+#         desc = request.POST.get('remedy_description', '')
+#         plant = get_object_or_404(Plant, pk=plant_id)
+#         doctor = None
+#         if doctor_id:
+#             doctor = get_object_or_404(Doctor, pk=doctor_id)
+#         Remedy.objects.create(plant=plant, doctor=doctor, remedy_description=desc)
+#         messages.success(request, 'Remedy added')
+#         return redirect('manage_remedies')
+#
+#     return redirect('manage_remedies')
+#
+#
+# @admin_required
+# def edit_remedy(request, pk):
+#     rem = get_object_or_404(Remedy, pk=pk)
+#     if request.method == 'POST':
+#         rem.remedy_description = request.POST.get('remedy_description', '')
+#         rem.save()
+#         messages.success(request, 'Remedy updated')
+#         return redirect('manage_remedies')
+#     return render(request, 'adminpanel/edit_remedy.html', {'remedy': rem})
+#
+#
+# @admin_required
+# def delete_remedy(request, pk):
+#     rem = get_object_or_404(Remedy, pk=pk)
+#     rem.delete()
+#     messages.success(request, 'Remedy deleted')
+#     return redirect('manage_remedies')
 
 
 @admin_required

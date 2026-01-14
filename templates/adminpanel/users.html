@@ -15,7 +15,7 @@
         <th>Username</th>
         <th>Email</th>
         <th>Active</th>
-        <th>Actions</th>
+        <th class="text-end">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -24,11 +24,15 @@
           <td>{{ u.get_full_name|default:u.username }}</td>
           <td>{{ u.email }}</td>
           <td>{% if u.is_active %}Yes{% else %}No{% endif %}</td>
-          <td>
+          <td class="text-end">
             <a class="btn btn-sm btn-outline-primary" href="{% url 'view_user' u.pk %}">View</a>
             {% if u.is_active %}
               <a class="btn btn-sm btn-danger" href="{% url 'deactivate_user' u.pk %}">Deactivate</a>
             {% endif %}
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'delete_user' u.pk %}"
+               onclick="return confirm('Are you sure you want to permanently delete this user?');">
+              Delete
+            </a>
           </td>
         </tr>
       {% empty %}

@@ -6,6 +6,10 @@ from .models import Consultation
 
 @login_required
 def upload_consultation(request):
+    # Block admins from accessing upload consultation page
+    if request.user.is_staff:
+        return redirect('admin_dashboard')
+    
     if request.method == 'POST':
         form = ConsultationForm(request.POST, request.FILES)
         if form.is_valid():

@@ -12,6 +12,7 @@ urlpatterns = [
     path('users/', views.manage_users, name='manage_users'),
     path('users/<int:pk>/', views.view_user, name='view_user'),
     path('users/<int:pk>/deactivate/', views.deactivate_user, name='deactivate_user'),
+    path('users/<int:pk>/delete/', views.delete_user, name='delete_user'),
 
     path('doctors/', views.manage_doctors, name='manage_doctors'),
     path('doctors/<int:pk>/edit/', views.edit_doctor, name='edit_doctor'),
@@ -23,10 +24,11 @@ urlpatterns = [
     path('plants/<int:pk>/edit/', views.edit_plant, name='edit_plant'),
     path('plants/<int:pk>/delete/', views.delete_plant, name='delete_plant'),
 
-    path('remedies/', views.manage_remedies, name='manage_remedies'),
-    path('remedies/add/', views.add_remedy, name='add_remedy'),
-    path('remedies/<int:pk>/edit/', views.edit_remedy, name='edit_remedy'),
-    path('remedies/<int:pk>/delete/', views.delete_remedy, name='delete_remedy'),
+    # Remedy management URLs removed - feature is hidden/disabled
+    # path('remedies/', views.manage_remedies, name='manage_remedies'),
+    # path('remedies/add/', views.add_remedy, name='add_remedy'),
+    # path('remedies/<int:pk>/edit/', views.edit_remedy, name='edit_remedy'),
+    # path('remedies/<int:pk>/delete/', views.delete_remedy, name='delete_remedy'),
 
     path('consultations/', views.consultations_list, name='consultations_list'),
 

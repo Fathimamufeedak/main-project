@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <style>
   /* Hide sidebar for landing page and make content full width */
@@ -12,6 +13,13 @@
   .cta-group .btn{border-radius:12px}
   .plants-grid .card{border-radius:12px; transition:transform .25s ease, box-shadow .25s ease}
   .plants-grid .card:hover{transform:translateY(-6px); box-shadow:0 10px 30px rgba(18,52,30,0.06)}
+  .plant-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #f0f0f0;
+  }
 </style>
 
 <section class="landing-hero">
@@ -41,10 +49,13 @@
     </div>
 
     <div class="row plants-grid">
-      {% comment %} Example cards - replace with real plant queryset if desired {% endcomment %}
+      {% comment %} Featured medicinal plants with local static images {% endcomment %}
       <div class="col-md-3 mb-3">
         <div class="card p-3 h-100">
-          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=example" class="card-img-top rounded mb-3" alt="Aloe Vera">
+          <img src="{% static 'images/plants/aloe_vera.jpg' %}"
+               class="card-img-top plant-image rounded mb-3" 
+               alt="Aloe Vera Plant"
+               loading="lazy">
           <h5 class="card-title">Aloe Vera</h5>
           <p class="text-muted small">Aloe vera is used for skin healing, burns and digestive soothing.</p>
           <a href="{% url 'plant_detail' 1 %}" class="btn btn-outline-success btn-sm">View Details</a>
@@ -53,7 +64,10 @@
 
       <div class="col-md-3 mb-3">
         <div class="card p-3 h-100">
-          <img src="https://images.unsplash.com/photo-1582540021106-3f9e7b3e5f5d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=example" class="card-img-top rounded mb-3" alt="Tulsi">
+          <img src="{% static 'images/plants/tulsi.jpg' %}"
+               class="card-img-top plant-image rounded mb-3" 
+               alt="Tulsi Holy Basil Plant"
+               loading="lazy">
           <h5 class="card-title">Tulsi (Holy Basil)</h5>
           <p class="text-muted small">Tulsi is an adaptogen used to support immunity and respiratory health.</p>
           <a href="{% url 'plant_detail' 2 %}" class="btn btn-outline-success btn-sm">View Details</a>
@@ -62,7 +76,10 @@
 
       <div class="col-md-3 mb-3">
         <div class="card p-3 h-100">
-          <img src="https://images.unsplash.com/photo-1598136497683-e9a9c9a6b4a9?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=example" class="card-img-top rounded mb-3" alt="Neem">
+          <img src="{% static 'images/plants/neem.jpg' %}"
+               class="card-img-top plant-image rounded mb-3" 
+               alt="Neem Tree"
+               loading="lazy">
           <h5 class="card-title">Neem</h5>
           <p class="text-muted small">Neem has antiseptic properties and is widely used in skincare and traditional remedies.</p>
           <a href="{% url 'plant_detail' 3 %}" class="btn btn-outline-success btn-sm">View Details</a>
@@ -71,7 +88,10 @@
 
       <div class="col-md-3 mb-3">
         <div class="card p-3 h-100">
-          <img src="https://images.unsplash.com/photo-1518977956815-0e9b2d2d4a9c?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=example" class="card-img-top rounded mb-3" alt="Ashwagandha">
+          <img src="{% static 'images/plants/ashwagandha.jpg' %}"
+               class="card-img-top plant-image rounded mb-3" 
+               alt="Ashwagandha Plant"
+               loading="lazy">
           <h5 class="card-title">Ashwagandha</h5>
           <p class="text-muted small">Ashwagandha is used as a tonic to reduce stress and support vitality.</p>
           <a href="{% url 'plant_detail' 4 %}" class="btn btn-outline-success btn-sm">View Details</a>

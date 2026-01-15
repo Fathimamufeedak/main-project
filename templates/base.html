@@ -1,4 +1,5 @@
 {% load static %}
+{% load doctor_extras %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,10 +18,12 @@
         <a class="navbar-brand fw-bold text-success" href="/">🌿 Medicinal Plant Guide</a>
         <div class="ms-auto d-flex align-items-center">
           {% if user.is_authenticated %}
-            {% if user.is_staff %}
+            {% if user.is_superuser %}
               <span class="me-3 text-muted small">Hello, Admin</span>
+            {% elif user|is_doctor %}
+              <span class="me-3 text-muted small">Hello, Dr. {{ user.get_full_name|default:user.username }}</span>
             {% else %}
-              <span class="me-3 text-muted small">Hello, {{ user.username }}</span>
+              <span class="me-3 text-muted small">Hello, {{ user.get_full_name|default:user.username }}</span>
             {% endif %}
           {% endif %}
           <a class="btn btn-outline-success btn-sm" href="/">Home</a>
@@ -35,8 +38,7 @@
           <small class="text-muted">Medicinal • Ayurvedic</small>
         </div>
         <nav class="nav flex-column p-2">
-          {% load doctor_extras %}
-          {% if user.is_staff %}
+          {% if user.is_superuser %}
             <a class="nav-link" href="{% url 'admin_dashboard' %}">
               <i class="bi bi-speedometer2 me-2 text-success"></i>Admin Dashboard
             </a>
